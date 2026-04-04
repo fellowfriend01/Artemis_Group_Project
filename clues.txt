@@ -1,14 +1,6 @@
 T|What's the real name of the UT Tower?|Main Building|2|10
-
 P|What was the old name for the Turtle Pond?(answer is plural)|Botanical Ponds|3|30
-
 H|How many seats does the Hogg Memorial Auditorium hold?(ends with zeros)|1000|4|25
-
 U|T/F: The Texas Union and the Tower were designed by the same architect|T|1|5
-
 G|What year did George Washington become president?|1789|5|20
-
 F|What war was the Littlefield Fountain built for as a memorial?|WW1|3|15
-
-
-
