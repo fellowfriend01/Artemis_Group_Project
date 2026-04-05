@@ -5,7 +5,7 @@
 #include <cctype>
 using namespace std;
 
-class clue {
+class Clue {
   private:
     char symbol;
     string question, correctAnswer;
@@ -14,7 +14,7 @@ class clue {
 
   public:
 //constructor
-    clue(char s, string q, string ans, int attempts, int pts) {
+    Clue(char s, string q, string ans, int attempts, int pts) {
         symbol = s;
         question = q;
         correctAnswer = ans;
