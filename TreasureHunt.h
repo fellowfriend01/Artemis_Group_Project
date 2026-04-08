@@ -5,7 +5,7 @@ using namespace std;
 
 class TreasureHunt {
 private:
-    // 🔹 Data Members
+    // Data Members
     vector<vector<char>> mapGrid;   // 2D map
     int playerRow;
     int playerCol;
