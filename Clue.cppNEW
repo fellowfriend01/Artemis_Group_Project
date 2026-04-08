@@ -1,0 +1,58 @@
+//Work in progress
+#include <iostream>
+#include <string>
+#include <cctype>
+#include <vector>
+
+#include "Clue.h"
+using namespace std;
+
+Clue::Clue(char s, string q, string ans, int att, int pts) {
+    symbol = s;
+    question = q;
+    correctAnswer = ans;
+    maxAttempts = att;
+    points = pts;
+    isCompleted = false;
+}
+
+char Clue::getSymbol() {
+    return symbol;
+}
+
+string Clue::getQuestion() {
+    return question;
+}
+
+string &Clue::getCorrectAnswer() {
+    return correctAnswer;
+}
+
+int Clue::getPoints() {
+    return points;
+}
+
+bool Clue::isSolved() {
+    return isCompleted;
+}
+
+int Clue::getMaxAttempts() {
+    return maxAttempts;
+}
+
+string Clue::toLowerCopy(const string& s) {
+    string out = s;
+    for (char& ch : out) {
+        //Convert each character to lowercase
+        ch = static_cast<char>(tolower(static_cast<unsigned char>(ch)));
+    }
+    return out;
+}
+
+bool Clue::checkAnswer(string& playerGuess) {
+    if (toLowerCopy(playerGuess) == toLowerCopy(correctAnswer)) {
+        isCompleted = true;
+        return true;
+    }
+    return false;
+}
