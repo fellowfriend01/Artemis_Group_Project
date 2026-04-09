@@ -3,6 +3,7 @@
 #include <string>
 #include <cctype>
 #include <vector>
+#include <random>
 
 #include "Clue.h"
 using namespace std;
