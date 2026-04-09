@@ -5,6 +5,7 @@
 #include <sstream>
 #include <cctype>
 #include <chrono>
+#include <cstdlib>
 using namespace std;
 
 TreasureHunt::TreasureHunt()
@@ -79,6 +80,8 @@ void TreasureHunt::loadClues(const string &filename)
 
 void TreasureHunt::displayMap() const
 {
+    system("clear");
+
     cout << "Score: " << totalScore << endl;
     for (int r = 0; r < mapGrid.size(); r++)
     {
