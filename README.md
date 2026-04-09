@@ -1,8 +1,4 @@
 # Artemis_Group_Project
-Notes:
-Remove int main from clue.cpp, replace with function to load clues from clues.txt.
-Remove loadClues from TreasureHunt.cpp? Assign vector "clues" to return from clues.cpp?
-
 Compilation:
 This project uses a modular structure, meaning the code is split across multiple files. To run the program, you must compile all .cpp files together in a 
 single command so the linker can connect the class definitions.
