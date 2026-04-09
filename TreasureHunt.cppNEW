@@ -7,10 +7,15 @@
 using namespace std;
 
 TreasureHunt::TreasureHunt() {
-    playerRow = 0;
-    playerCol = 0;
+    playerRow = new int(0);
+    playerCol = new int(0);
     totalScore = 0;
     gameOver = false;
+}
+
+TreasureHunt::~TreasureHunt() {
+    delete playerRow;
+    delete playerCol;
 }
 
 void TreasureHunt::loadMap(const string& filename) {
@@ -27,14 +32,14 @@ void TreasureHunt::loadMap(const string& filename) {
         mapGrid.push_back(line);
         for (int c = 0; c < line.size(); c++) {
             if (line[c] == '@') {
-                playerRow = r;
-                playerCol = c;
+                *playerRow = r;
+                *playerCol = c;
                 atCount++;
             }
         }
     }
-    if (atCount!=1) {
-        cout << "Map must contain exactly one '@'" << endl;;
+    if (atCount != 1) {
+        cout << "Map must contain exactly one '@'" << endl;
         gameOver = true;
     }
 }
@@ -55,7 +60,7 @@ void TreasureHunt::loadClues(const string& filename) {
         getline(ss, question, '|');
         getline(ss, answer, '|');
         getline(ss, attempts, '|');
-        getline(ss, points, '|');
+        getline(ss, points);
         clues.push_back(Clue(symbol[0], question, answer, stoi(attempts), stoi(points)));
     }
 }
@@ -64,10 +69,12 @@ void TreasureHunt::displayMap() const {
     cout << "Score: " << totalScore << endl;
     for (int r = 0; r < mapGrid.size(); r++) {
         for (int c = 0; c < mapGrid[r].size(); c++) {
-            if (r == playerRow && c == playerCol)
+            if (r == *playerRow && c == *playerCol) {
                 cout << '@';
-            else
+            }
+            else {
                 cout << mapGrid[r][c];
+            }
         }
         cout << endl;
     }
@@ -75,8 +82,8 @@ void TreasureHunt::displayMap() const {
 
 void TreasureHunt::movePlayer(char direction) {
     direction = toupper(direction);
-    int newRow = playerRow;
-    int newCol = playerCol;
+    int newRow = *playerRow;
+    int newCol = *playerCol;
     if (direction == 'W') {
         newRow--;
     }
@@ -89,15 +96,14 @@ void TreasureHunt::movePlayer(char direction) {
     else if (direction == 'D') {
         newCol++;
     }
-    if (newRow < 0 || newRow >= mapGrid.size() ||
-        newCol < 0 || newCol >= mapGrid[newRow].size()) {
+    if (newRow < 0 || newRow >= mapGrid.size() || newCol < 0 || newCol >= mapGrid[newRow].size()) {
         return;
     }
     if (mapGrid[newRow][newCol] == '#') {
         return;
     }
-    playerRow = newRow;
-    playerCol = newCol;
+    *playerRow = newRow;
+    *playerCol = newCol;
     checkForClue();
 }
 
@@ -106,7 +112,7 @@ void TreasureHunt::updateScore(int points) {
 }
 
 void TreasureHunt::checkForClue() {
-    char tile = mapGrid[playerRow][playerCol];
+    char tile = mapGrid[*playerRow][*playerCol];
     for (int i = 0; i < clues.size(); i++) {
         if (clues[i].getSymbol() == tile && !clues[i].isSolved()) {
             cout << clues[i].getQuestion() << endl;
@@ -117,9 +123,9 @@ void TreasureHunt::checkForClue() {
             for (int j = 0; j < clues[i].getMaxAttempts(); j++) {
                 getline(cin, userAnswer);
                 if (clues[i].checkAnswer(userAnswer)) {
-                    cout << "Correct!" << endl;;
+                    cout << "Correct!" << endl;
                     updateScore(clues[i].getPoints());
-                    mapGrid[playerRow][playerCol] = '.';
+                    mapGrid[*playerRow][*playerCol] = '.';
                     return;
                 }
                 else {
@@ -129,7 +135,7 @@ void TreasureHunt::checkForClue() {
             }
             cout << "Out of attempts. Answer: " << clues[i].getCorrectAnswer() << endl;
             clues[i].checkAnswer(clues[i].getCorrectAnswer());
-            mapGrid[playerRow][playerCol] = '.';
+            mapGrid[*playerRow][*playerCol] = '.';
             return;
         }
     }
@@ -156,7 +162,7 @@ void TreasureHunt::playGame() {
             gameOver = true;
         }
         if (totalScore < -10) {
-            cout << "You ran out of points!" << endl;;
+            cout << "You ran out of points!" << endl;
             gameOver = true;
         }
     }
