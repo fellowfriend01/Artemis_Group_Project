@@ -19,7 +19,7 @@ public:
     int getPoints();
     bool isSolved();
     int getMaxAttempts();
-    //displayFunFact();
+    
 
 
 
