@@ -16,3 +16,9 @@ bonus point opportunities.
 AI Tools:
 AI assistance was minimal. By primarily limiting its use to learning and finalizing bug fixes, we ensured that group members contributed the majority of 
 the work and progress.
+
+Bonuses:
+1. Timer
+2. Larger Map
+3. Fun Fact after correct answer
+4. 
