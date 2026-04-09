@@ -1,59 +1,72 @@
-//Work in progress
+// Work in progress
 #include "TreasureHunt.h"
 #include <iostream>
 #include <fstream>
 #include <sstream>
 #include <cctype>
+#include <chrono>
+
 using namespace std;
 
-TreasureHunt::TreasureHunt() {
+TreasureHunt::TreasureHunt()
+{
     playerRow = new int(0);
     playerCol = new int(0);
     totalScore = 0;
     gameOver = false;
 }
 
-TreasureHunt::~TreasureHunt() {
+TreasureHunt::~TreasureHunt()
+{
     delete playerRow;
     delete playerCol;
 }
 
-void TreasureHunt::loadMap(const string& filename) {
+void TreasureHunt::loadMap(const string &filename)
+{
     ifstream file(filename);
     string line;
-    if (!file) {
+    if (!file)
+    {
         cout << "Error opening map file" << endl;
         gameOver = true;
         return;
     }
     mapGrid.clear();
     int atCount = 0;
-    for (int r = 0; getline(file, line); r++) {
+    for (int r = 0; getline(file, line); r++)
+    {
         mapGrid.push_back(line);
-        for (int c = 0; c < line.size(); c++) {
-            if (line[c] == '@') {
+        for (int c = 0; c < line.size(); c++)
+        {
+            if (line[c] == '@')
+            {
                 *playerRow = r;
                 *playerCol = c;
                 atCount++;
             }
         }
     }
-    if (atCount != 1) {
+    if (atCount != 1)
+    {
         cout << "Map must contain exactly one '@'" << endl;
         gameOver = true;
     }
 }
 
-void TreasureHunt::loadClues(const string& filename) {
+void TreasureHunt::loadClues(const string &filename)
+{
     ifstream file(filename);
     string line;
-    if (!file) {
+    if (!file)
+    {
         cout << "Error opening clues file" << endl;
         gameOver = true;
         return;
     }
     clues.clear();
-    while (getline(file, line)) {
+    while (getline(file, line))
+    {
         stringstream ss(line);
         string symbol, question, answer, attempts, points;
         getline(ss, symbol, '|');
@@ -65,14 +78,19 @@ void TreasureHunt::loadClues(const string& filename) {
     }
 }
 
-void TreasureHunt::displayMap() const {
+void TreasureHunt::displayMap() const
+{
     cout << "Score: " << totalScore << endl;
-    for (int r = 0; r < mapGrid.size(); r++) {
-        for (int c = 0; c < mapGrid[r].size(); c++) {
-            if (r == *playerRow && c == *playerCol) {
+    for (int r = 0; r < mapGrid.size(); r++)
+    {
+        for (int c = 0; c < mapGrid[r].size(); c++)
+        {
+            if (r == *playerRow && c == *playerCol)
+            {
                 cout << '@';
             }
-            else {
+            else
+            {
                 cout << mapGrid[r][c];
             }
         }
@@ -80,26 +98,33 @@ void TreasureHunt::displayMap() const {
     }
 }
 
-void TreasureHunt::movePlayer(char direction) {
+void TreasureHunt::movePlayer(char direction)
+{
     direction = toupper(direction);
     int newRow = *playerRow;
     int newCol = *playerCol;
-    if (direction == 'W') {
+    if (direction == 'W')
+    {
         newRow--;
     }
-    else if (direction == 'S') {
+    else if (direction == 'S')
+    {
         newRow++;
     }
-    else if (direction == 'A') {
+    else if (direction == 'A')
+    {
         newCol--;
     }
-    else if (direction == 'D') {
+    else if (direction == 'D')
+    {
         newCol++;
     }
-    if (newRow < 0 || newRow >= mapGrid.size() || newCol < 0 || newCol >= mapGrid[newRow].size()) {
+    if (newRow < 0 || newRow >= mapGrid.size() || newCol < 0 || newCol >= mapGrid[newRow].size())
+    {
         return;
     }
-    if (mapGrid[newRow][newCol] == '#') {
+    if (mapGrid[newRow][newCol] == '#')
+    {
         return;
     }
     *playerRow = newRow;
@@ -107,28 +132,36 @@ void TreasureHunt::movePlayer(char direction) {
     checkForClue();
 }
 
-void TreasureHunt::updateScore(int points) {
+void TreasureHunt::updateScore(int points)
+{
     totalScore += points;
 }
 
-void TreasureHunt::checkForClue() {
+void TreasureHunt::checkForClue()
+{
     char tile = mapGrid[*playerRow][*playerCol];
-    for (int i = 0; i < clues.size(); i++) {
-        if (clues[i].getSymbol() == tile && !clues[i].isSolved()) {
+    for (int i = 0; i < clues.size(); i++)
+    {
+        if (clues[i].getSymbol() == tile && !clues[i].isSolved())
+        {
             cout << clues[i].getQuestion() << endl;
             string userAnswer;
-            if (cin.peek() == '\n') {
+            if (cin.peek() == '\n')
+            {
                 cin.ignore();
             }
-            for (int j = 0; j < clues[i].getMaxAttempts(); j++) {
+            for (int j = 0; j < clues[i].getMaxAttempts(); j++)
+            {
                 getline(cin, userAnswer);
-                if (clues[i].checkAnswer(userAnswer)) {
+                if (clues[i].checkAnswer(userAnswer))
+                {
                     cout << "Correct!" << endl;
                     updateScore(clues[i].getPoints());
                     mapGrid[*playerRow][*playerCol] = '.';
                     return;
                 }
-                else {
+                else
+                {
                     cout << "Incorrect" << endl;
                     updateScore(-2);
                 }
@@ -141,44 +174,86 @@ void TreasureHunt::checkForClue() {
     }
 }
 
-void TreasureHunt::playGame() {
+void TreasureHunt::playGame()
+{
+    using namespace std::chrono;
+
     char move;
-    while (!gameOver) {
+    const int TIME_LIMIT = 10;
+    steady_clock::time_point startTime = steady_clock::now();
+
+    while (!gameOver)
+    {
         displayMap();
-        cout << "Move (WASD, Q to quit): ";
+        cout << "Move (WASD, Q to quit) [Time Limit: " << TIME_LIMIT << "s]: ";
         cin >> move;
-        if (toupper(move) == 'Q') {
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+        if (toupper(move) == 'Q')
+        {
             break;
         }
+
+        steady_clock::time_point endTime = steady_clock::now();
+        duration<double> elapsed = duration_cast<duration<double>>(endTime - startTime);
+        startTime = steady_clock::now();
+
+        if (elapsed.count() > TIME_LIMIT)
+        {
+            cout << "\n> TOO SLOW! You took " << (int)elapsed.count() << " seconds." << endl;
+            totalScore -= 5;
+            cout << "> Penalty applied! Current Score: " << totalScore << endl;
+        }
+
         movePlayer(move);
+
         bool allDone = true;
-        for (int i = 0; i < clues.size(); i++) {
-            if (!clues[i].isSolved()) {
+        for (int i = 0; i < clues.size(); i++)
+        {
+            if (!clues[i].isSolved())
+            {
                 allDone = false;
             }
         }
-        if (allDone) {
+
+        if (allDone)
+        {
             cout << "You completed all landmarks!" << endl;
             gameOver = true;
         }
-        if (totalScore < -10) {
+
+        if (totalScore < -10)
+        {
             cout << "You ran out of points!" << endl;
             gameOver = true;
         }
     }
+
     int completed = 0;
-    for (int i = 0; i < clues.size(); i++) {
-        if (clues[i].isSolved()) {
+    for (int i = 0; i < clues.size(); i++)
+    {
+        if (clues[i].isSolved())
+        {
             completed++;
         }
     }
-    double percent = (double)completed / clues.size() * 100;
+
+    double percent = 0.0;
+    if (clues.size() > 0)
+    {
+        percent = (double)completed / clues.size() * 100;
+    }
+
+    cout << "--- GAME OVER ---" << endl;
     cout << "Final Score: " << totalScore << endl;
     cout << "Completion: " << percent << "%" << endl;
-    if (percent == 100) {
+
+    if (percent == 100)
+    {
         cout << "You win!" << endl;
     }
-    else {
+    else
+    {
         cout << "You lose!" << endl;
     }
 }
