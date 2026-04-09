@@ -19,6 +19,9 @@ public:
     int getPoints();
     bool isSolved();
     int getMaxAttempts();
+    //displayFunFact();
+
+
 
     bool checkAnswer(string& playerGuess);
     static string toLowerCopy(const string& s);
