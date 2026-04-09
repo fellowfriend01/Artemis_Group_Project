@@ -20,9 +20,6 @@ public:
     bool isSolved();
     int getMaxAttempts();
     void displayFunFact();
-    
-
-
 
     bool checkAnswer(string& playerGuess);
     static string toLowerCopy(const string& s);
