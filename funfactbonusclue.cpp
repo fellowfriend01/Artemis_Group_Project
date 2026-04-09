@@ -63,7 +63,7 @@ void Clue::displayFunFact() {
     // The Random Generator Device
     static random_device rd; 
     static mt19937 gen(rd()); 
-    uniform_int_distribution<int> dis(0, 6);
+    uniform_int_distribution<int> dis(0, 5);
 
     // Pick one and print it
     cout << "\n[UT AUSTIN FUN FACT]: " << facts[dis(gen)] << endl;
