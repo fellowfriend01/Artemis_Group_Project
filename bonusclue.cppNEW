@@ -48,10 +48,31 @@ string Clue::toLowerCopy(const string& s) {
     }
     return out;
 }
+void Clue::displayFunFact() {
+    // The vector containing the 6 UT Austin fun facts
+    vector<string> facts = {
+        "The UT Tower is 307 feet tall and features 56 bells in its carillon.",
+        "The 'Hook 'em Horns' hand sign was introduced by Harley Clark in 1955.",
+        "UT Austin's mascot, Bevo, first appeared in 1916.",
+        "The university's motto is 'Disciplina Praesidium Civitatis'.",
+        "UT Austin is home to the 'Frontera' supercomputer, one of the world's fastest.",
+        "The school colors were originally gold and white before Burnt Orange."
+    };
+
+    // The Random Generator Device
+    static random_device rd; 
+    static mt19937 gen(rd()); 
+    uniform_int_distribution<int> dis(0, 6);
+
+    // Pick one and print it
+    cout << "\n[UT AUSTIN FUN FACT]: " << facts[dis(gen)] << endl;
+}
 
 bool Clue::checkAnswer(string& playerGuess) {
     if (toLowerCopy(playerGuess) == toLowerCopy(correctAnswer)) {
         isCompleted = true;
+        displayFunFact();
+
         return true;
     }
     return false;
