@@ -140,6 +140,10 @@ void TreasureHunt::updateScore(int points)
 void TreasureHunt::checkForClue()
 {
     char tile = mapGrid[*playerRow][*playerCol];
+    if(mapGrid[3][61]){
+        cout << "You've identified the secret clue! You get 15 extra points" << endl;
+        updateScore(15);
+    }
     for (int i = 0; i < clues.size(); i++)
     {
         if (clues[i].getSymbol() == tile && !clues[i].isSolved())
