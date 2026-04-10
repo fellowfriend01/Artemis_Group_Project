@@ -56,6 +56,8 @@ void TreasureHunt::loadMap(const string &filename)
 
 void TreasureHunt::loadClues(const string &filename)
 {
+	
+	vector <Clue> inOrderClue;
     ifstream file(filename);
     string line;
     if (!file)
@@ -74,9 +76,23 @@ void TreasureHunt::loadClues(const string &filename)
         getline(ss, answer, '|');
         getline(ss, attempts, '|');
         getline(ss, points);
-        clues.push_back(Clue(symbol[0], question, answer, stoi(attempts), stoi(points)));
+        inOrderClue.push_back(Clue(symbol[0], question, answer, stoi(attempts), stoi(points)));
     }
+	static mt19337 gen(rd())
+	for (int i = 0; i < inOrderClue.size()){
+		unifrom_int_distribution<int dist(0, inOrderClue.size()-1)
+		int index = dist(gen);
+		
+		if(clues[index] == ' '){
+		
+			clues.pushback(inOrderClue[i]);
+			i++;
+		}
+
+	}
+	
 }
+
 
 void TreasureHunt::displayMap() const
 {
