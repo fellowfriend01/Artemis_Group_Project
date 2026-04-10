@@ -162,7 +162,7 @@ void TreasureHunt::checkForClue()
     if (mapGrid[1][62] == '@')
     {
         *playerRow = 1;
-        *playerCOol = 61;
+        *playerCol = 61;
         mapGrid[1][62] = '#';
         cout << "You've identified the secret location! You get 15 extra points" << endl;
         updateScore(15);
