@@ -1,1 +1,26 @@
+#ifndef CLUE_H
+#define CLUE_H
+#include <string>
+using namespace std;
 
+class Clue {
+    char symbol;
+    string question, correctAnswer;
+    int points, maxAttempts;
+    bool isCompleted = false;
+
+public:
+    Clue(char s, string q, string ans, int attempts, int pts);
+
+    char getSymbol();
+    string getQuestion();
+    string &getCorrectAnswer();
+    int getPoints();
+    bool isSolved();
+    int getMaxAttempts();
+    void displayFunFact();
+
+    bool checkAnswer(string& playerGuess);
+    static string toLowerCopy(const string& s);
+};
+#endif
