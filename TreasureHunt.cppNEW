@@ -5,6 +5,7 @@
 #include <sstream>
 #include <cctype>
 #include <chrono>
+#include <random>
 
 using namespace std;
 
@@ -56,8 +57,8 @@ void TreasureHunt::loadMap(const string &filename)
 
 void TreasureHunt::loadClues(const string &filename)
 {
-	
-	vector <Clue> inOrderClue;
+
+    vector<Clue> inOrderClue;
     ifstream file(filename);
     string line;
     if (!file)
@@ -78,21 +79,21 @@ void TreasureHunt::loadClues(const string &filename)
         getline(ss, points);
         inOrderClue.push_back(Clue(symbol[0], question, answer, stoi(attempts), stoi(points)));
     }
-//randomize clue order
-	static mt19337 gen(rd())
-	for (int i = 0; i < inOrderClue.size()){
-		unifrom_int_distribution<int dist(0, inOrderClue.size()-1)
-		int index = dist(gen);
-		
-		if(clues[index] == ' '){
-			clues[index] = inOrderClue[i];
-			i++;
-		}
+    // randomize clue order
+    static random_device rd;
+    static mt19937 gen(rd());
+    for (int i = 0; i < inOrderClue.size();)
+    {
+        uniform_int_distribution<int> dist(0, inOrderClue.size() - 1);
+        int index = dist(gen);
 
-	}
-	
+        if (clues[index].getSymbol() == ' ')
+        {
+            clues[index] = inOrderClue[i];
+            i++;
+        }
+    }
 }
-
 
 void TreasureHunt::displayMap() const
 {
@@ -139,7 +140,7 @@ void TreasureHunt::movePlayer(char direction)
     {
         return;
     }
-    if (mapGrid[newRow][newCol] == '#' || mapGrid[newRow][newCol] == '❀')
+    if (mapGrid[newRow][newCol] == '#' || mapGrid[newRow][newCol] == '$')
     {
         return;
     }
@@ -157,8 +158,9 @@ void TreasureHunt::checkForClue()
 {
     char tile = mapGrid[*playerRow][*playerCol];
 
-	//secret location
-    if(mapGrid[3][61]=='@'){
+    // secret location
+    if (mapGrid[3][61] == '@')
+    {
         cout << "You've identified the secret location! You get 15 extra points" << endl;
         updateScore(15);
     }
