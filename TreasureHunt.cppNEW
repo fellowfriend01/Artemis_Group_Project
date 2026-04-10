@@ -78,14 +78,14 @@ void TreasureHunt::loadClues(const string &filename)
         getline(ss, points);
         inOrderClue.push_back(Clue(symbol[0], question, answer, stoi(attempts), stoi(points)));
     }
+//randomize clue order
 	static mt19337 gen(rd())
 	for (int i = 0; i < inOrderClue.size()){
 		unifrom_int_distribution<int dist(0, inOrderClue.size()-1)
 		int index = dist(gen);
 		
 		if(clues[index] == ' '){
-		
-			clues.pushback(inOrderClue[i]);
+			clues[index] = inOrderClue[i];
 			i++;
 		}
 
