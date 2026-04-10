@@ -5,7 +5,9 @@ single command so the linker can connect the class definitions.
 
 Using g++, run the following in your terminal: g++ main.cpp TreasureHunt.cpp Clue.cpp -o TreasureHunt
 
-When you run this, g++ compiles each .cpp file into hidden temporary object files. g++ then calls the Linker. The Linker looks at those temporary files, connects the function calls, and stitches them together. The Linker saves that final combined program using the name provided after the -o flag (in our case TreasureHunt).
+When you run this, g++ compiles each .cpp file into hidden temporary object files. g++ then calls the Linker. The Linker looks at those temporary files, 
+connects the function calls, and stitches them together. The Linker saves that final combined program using the name provided after the -o flag (in our 
+case TreasureHunt).
 
 Team Roles:
 Each person was assigned a file to complete. This included the Clue.cpp (Shruti), Clue.h (Tanvi), Map.txt (Bhavini), TreasureHunt.cpp (Jeslyn), 
