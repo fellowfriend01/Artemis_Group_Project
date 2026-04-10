@@ -9,6 +9,8 @@ When you run this, g++ compiles each .cpp file into hidden temporary object file
 connects the function calls, and stitches them together. The Linker saves that final combined program using the name provided after the -o flag (in our 
 case TreasureHunt).
 
+To run your compiled code, simply enter ./TreasureHunt
+
 Team Roles:
 Each person was assigned a file to complete. This included the Clue.cpp (Shruti), Clue.h (Tanvi), Map.txt (Bhavini), TreasureHunt.cpp (Jeslyn), 
 TreasureHunt.h (Hana), clues.txt (Noah), main.cpp (Thomas). Because some parts of the code were easier than others (ie. clues.txt and main.cpp), these 
