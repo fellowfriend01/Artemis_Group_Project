@@ -1,1 +1,41 @@
+#ifndef TREASUREHUNT_H
+#define TREASUREHUNT_H
+#include <vector>
+#include <string>
+#include "Clue.h"
+using namespace std;
 
+class TreasureHunt {
+private:
+    // Data Members
+    vector<string> mapGrid; // 2D map
+    vector<Clue> clues;
+    int* playerRow;
+    int* playerCol;
+    int totalScore;
+    bool gameOver;
+
+public:
+    // Constructor
+    TreasureHunt();
+    // Deconstructor
+    ~TreasureHunt();
+
+    // Game Setup
+    void loadMap(const string& filename);
+    void loadClues(const string& filename);
+
+    // Game Actions
+    void displayMap() const;
+    void movePlayer(char direction); // 'W', 'A', 'S', 'D'
+    void checkForClue();
+    void updateScore(int points);
+
+    // Game State
+    bool isGameOver() const;
+    int getScore() const;
+
+    // Main Game Loop
+    void playGame();
+};
+#endif
