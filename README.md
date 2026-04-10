@@ -26,4 +26,3 @@ Bonuses Completed:
 2. Larger Map
 3. Fun Fact after correct answer
 4. Randomized clue order
-5. Hidden secret location (score booster)
